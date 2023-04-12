@@ -20,13 +20,7 @@ from utils.torch_utils import select_device, TracedModel
 ####################################################################################################
 
 def GenerateRandomString():
-    return ''.join(random.choices(string.ascii_lowercase + "_" + string.ascii_uppercase +  string.digits, k=10))
-
-####################################################################################################
-
-def GenerateRandFileName(ext=".jpg"):
-    dateVN = datetime.datetime.utcnow() + datetime.timedelta(hours=7)
-    return dateVN.strftime("%Y-%m-%d_%H-%M-%S") + "_" + GenerateRandomString() + ext
+    return ''.join(random.choices(string.ascii_lowercase + "_" + string.ascii_uppercase +  string.digits, k=5))
 
 ####################################################################################################
 
@@ -71,6 +65,20 @@ class Extractor():
         else:
             self.resize_width = 0
             self.resize_height = 0
+
+        self.strTime = ""
+        self.fileIndex = 0
+
+    ####################################################################################################
+
+    def GenerateRandFileName(self, ext=".jpg"):    
+        dateVN = datetime.datetime.utcnow() + datetime.timedelta(hours=7)
+        strTime = dateVN.strftime("%Y-%m-%d_%H-%M-%S")
+        if(strTime != self.strTime):
+            self.strTime = strTime
+            self.fileIndex = 0
+        self.fileIndex += 1
+        return self.strTime + "_" + "{:02d}".format(self.fileIndex) + GenerateRandomString() + ext
 
     ####################################################################################################
 
@@ -169,7 +177,7 @@ class Extractor():
                     if(self.ignore_no_object and len(rows) == 0):
                         continue
 
-                    _randFilename = GenerateRandFileName(".jpg")
+                    _randFilename = self.GenerateRandFileName(".jpg")
                     outputPath = os.path.join("extracted", _randFilename)
                     if(self.resize_width > 0 and self.resize_height > 0):
                         mat = cv2.resize(mat, (self.resize_width, self.resize_height))
