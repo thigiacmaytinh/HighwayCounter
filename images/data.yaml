@@ -2,4 +2,3 @@ names: [ 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', '
 nc: 8
 train: images/train
 val: images/valid
-test: images/test
