@@ -1,2 +1,2 @@
-python detect_or_track.py --weights "D:\PROJECT\GitHub\THIGIACMAYTINH\HighwayCounter\runs\train\highway\weights\best.pt" --no-trace --view-img --nosave --show-fps --seed 2 --track --show-track --source "D:\Data.ML\Highway\VID_20210509_174427.mp4"
+python detect_or_track.py --weights ./yolov7.pt --no-trace --view-img --nosave --show-fps --seed 2 --source "D:\Data.ML\Highway\VID_20230730_150832.mp4" --classes 0 1 2 3 4 5 6 7 --resize 720 1280 --conf-thres 0.7
 pause

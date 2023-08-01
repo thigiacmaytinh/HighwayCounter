@@ -57,6 +57,14 @@ def detect(save_img=False):
     if not opt.nosave:  
         (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
+    resize_width = 0
+    resize_height = 0
+    if(len(opt.resize) == 2):
+        resize_width = opt.resize[0]
+        resize_height = opt.resize[1]
+
+            
+
     # Initialize
     set_logging()
     device = select_device(opt.device)
@@ -210,6 +218,8 @@ def detect(save_img=False):
 
             #######################################################
             if view_img:
+                if(resize_width > 0 and resize_height > 0):
+                    im0 = cv2.resize(im0, (resize_width, resize_height))
                 cv2.imshow(str(p), im0)
                 cv2.waitKey(1)  # 1 millisecond
 
@@ -246,7 +256,7 @@ if __name__ == '__main__':
     parser.add_argument('--weights', nargs='+', type=str, default='yolov7.pt', help='model.pt path(s)')
     parser.add_argument('--source', type=str, default='inference/images', help='source')  # file/folder, 0 for webcam
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
-    parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
+    parser.add_argument('--conf-thres', type=float, default=0.7, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--view-img', action='store_true', help='display results')
@@ -270,7 +280,7 @@ if __name__ == '__main__':
     parser.add_argument('--nobbox', action='store_true', help='don`t show bounding box')
     parser.add_argument('--nolabel', action='store_true', help='don`t show label')
     parser.add_argument('--unique-track-color', action='store_true', help='show each track in unique color')
-
+    parser.add_argument('--resize', nargs='+', type=int, help='resize output image: --resize 1280 720')
 
     opt = parser.parse_args()
     print(opt)
