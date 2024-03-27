@@ -39,5 +39,5 @@ thop  # FLOPs computation
 # roboflow
 
 # Tracking ------------------------------------
-filterpy
+filterpy==1.4.5
 scikit-image
